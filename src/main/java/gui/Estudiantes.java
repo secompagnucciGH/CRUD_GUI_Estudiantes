@@ -22,32 +22,35 @@ public class Estudiantes extends JFrame {
     PreparedStatement ps;
     // Declaración de la conexión
     Connection con;
-    DefaultListModel mod = new DefaultListModel();
-    Statement st;
-    ResultSet r;
+    DefaultListModel mod = new DefaultListModel(); // Modelo para la lista
+    Statement st; // Statement para ejecutar consultas SQL
+    ResultSet r; // ResultSet para almacenar resultados de consultas SQL
+
+
+
+
     // Constructor de la clase
     public Estudiantes() {
-
         // Añadiendo un ActionListener al botón de consultar
         consultarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    listar();
+                    listar(); // Llamar al método listar() al hacer clic en el botón consultar
                 } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                    throw new RuntimeException(ex); // Manejo de excepciones
                 }
             }
         });
 
-
+        // Añadiendo un ActionListener al botón de ingresar
         ingresarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    insertar();
+                    insertar(); // Llamar al método insertar() al hacer clic en el botón ingresar
                 } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                    throw new RuntimeException(ex); // Manejo de excepciones
                 }
             }
         });
@@ -55,14 +58,16 @@ public class Estudiantes extends JFrame {
 
 
 
-    // Método para listar (insertar) datos en la base de datos
+    // Método para listar datos de la base de datos
     public void listar() throws SQLException {
         conectar(); // Conectar a la base de datos
-        list1.setModel(mod);
-        st = con.createStatement();
-        r = st.executeQuery("SELECT id,nombre,apellido FROM estudiante");
-        mod.removeAllElements();
+        list1.setModel(mod); // Establecer el modelo de la lista
+        st = con.createStatement(); // Crear un Statement
+        r = st.executeQuery("SELECT id, nombre, apellido FROM estudiante"); // Ejecutar consulta SQL
+        mod.removeAllElements(); // Limpiar el modelo de la lista
+        // Recorrer los resultados de la consulta
         while (r.next()) {
+            // Añadir los resultados al modelo de la lista
             mod.addElement(r.getString(1) + " " + r.getString(2) + " " + r.getString(3));
         }
     }
